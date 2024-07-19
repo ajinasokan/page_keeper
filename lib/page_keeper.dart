@@ -61,19 +61,19 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   List<PageKeeperPage<dynamic>> _pages = [];
 
-  Future<dynamic> navigate(PageKeeperPage page) {
+  Future<T> navigate<T>(PageKeeperPage<T> page) {
     _pages = [..._pages, page];
     setState(() {});
     return page.popCompleter.future;
   }
 
-  Future<void> replace(PageKeeperPage page) {
+  Future<T> replace<T>(PageKeeperPage<T> page) {
     _pages = [..._pages.sublist(0, _pages.length - 1), page];
     setState(() {});
     return page.popCompleter.future;
   }
 
-  Future<void> only(PageKeeperPage page) {
+  Future<T> only<T>(PageKeeperPage<T> page) {
     _pages = [page];
     setState(() {});
     return page.popCompleter.future;
