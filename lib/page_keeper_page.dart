@@ -8,9 +8,11 @@ abstract class PageKeeperPage<T> extends Page<T> {
     super.restorationId,
   });
 
-  final popCompleter = Completer<T>();
+  final popCompleter = Completer<T?>();
 
   Route<T> buildRoute(BuildContext context);
+
+  bool isChildOfType(Type t);
 
   @override
   Route<T> createRoute(BuildContext context) {

@@ -16,6 +16,9 @@ class BottomSheetPage<T> extends PageKeeperPage<T> {
   final Duration reverseTransitionDuration;
 
   @override
+  bool isChildOfType(Type t) => child.runtimeType == t;
+
+  @override
   Route<T> buildRoute(BuildContext context) {
     return _BottomSheetPageRoute(
       settings: this,

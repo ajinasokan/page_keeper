@@ -61,22 +61,22 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   List<PageKeeperPage<dynamic>> _pages = [];
 
-  Future<T> navigate<T>(PageKeeperPage<T> page) {
+  Future<T?> navigate<T>(PageKeeperPage<T> page) async {
     _pages = [..._pages, page];
     setState(() {});
-    return page.popCompleter.future;
+    return await page.popCompleter.future;
   }
 
-  Future<T> replace<T>(PageKeeperPage<T> page) {
+  Future<T?> replace<T>(PageKeeperPage<T> page) async {
     _pages = [..._pages.sublist(0, _pages.length - 1), page];
     setState(() {});
-    return page.popCompleter.future;
+    return await page.popCompleter.future;
   }
 
-  Future<T> only<T>(PageKeeperPage<T> page) {
+  Future<T?> only<T>(PageKeeperPage<T> page) async {
     _pages = [page];
     setState(() {});
-    return page.popCompleter.future;
+    return await page.popCompleter.future;
   }
 
   void reset(List<PageKeeperPage> pages) {
@@ -88,8 +88,19 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
     return _navigatorKey.currentState!.pop(result);
   }
 
-  Future<bool> maybePop([dynamic result]) {
-    return _navigatorKey.currentState!.maybePop(result);
+  bool popFirstOfType(Type type) {
+    int i = _pages.lastIndexWhere((e) => e.isChildOfType(type));
+    if (i == -1) return false;
+
+    _pages.removeAt(i);
+    _pages = [..._pages];
+    setState(() {});
+
+    return true;
+  }
+
+  Future<bool> maybePop([dynamic result]) async {
+    return await _navigatorKey.currentState!.maybePop(result);
   }
 
   bool _onPopPage(Route route, dynamic result) {

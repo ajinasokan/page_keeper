@@ -16,6 +16,9 @@ class DialogPage<T> extends PageKeeperPage<T> {
   bool canUpdate(Page other) => false;
 
   @override
+  bool isChildOfType(Type t) => child.runtimeType == t;
+
+  @override
   Route<T> buildRoute(BuildContext context) {
     return RawDialogRoute(
       settings: this,

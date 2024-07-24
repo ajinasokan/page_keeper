@@ -27,6 +27,9 @@ class FullPage<T> extends PageKeeperPage<T> {
   final bool allowSnapshotting;
 
   @override
+  bool isChildOfType(Type t) => child.runtimeType == t;
+
+  @override
   Route<T> buildRoute(BuildContext context) {
     if (kind == PageType.cupertino) {
       return _CupertinoPageRoute(
