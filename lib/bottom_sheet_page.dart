@@ -60,7 +60,7 @@ class _BottomSheetPageRoute<T> extends PageRoute<T> {
   final String? barrierLabel;
 
   @override
-  final bool maintainState = false;
+  final bool maintainState = true;
 
   @override
   String get debugLabel => '${super.debugLabel}(${page.name})';

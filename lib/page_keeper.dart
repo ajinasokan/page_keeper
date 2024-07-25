@@ -26,6 +26,7 @@ class PageKeeper extends StatefulWidget {
     required Widget child,
     required PageType type,
     Duration? transitionDuration,
+    bool maintainState = true,
   }) {
     late PageKeeperPage<T> pageRoute;
     if (type == PageType.cupertino || type == PageType.material) {
@@ -34,6 +35,7 @@ class PageKeeper extends StatefulWidget {
         name: child.runtimeType.toString(),
         kind: type,
         transitionDuration: transitionDuration,
+        maintainState: maintainState,
       );
     } else if (type == PageType.dialog) {
       pageRoute = DialogPage(
