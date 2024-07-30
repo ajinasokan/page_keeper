@@ -5,15 +5,15 @@ class BottomSheetPage<T> extends PageKeeperPage<T> {
     super.key,
     required this.child,
     required super.name,
-    this.transitionDuration = const Duration(milliseconds: 300),
-    this.reverseTransitionDuration = const Duration(milliseconds: 300),
+    this.transitionDuration,
+    this.reverseTransitionDuration,
   });
 
   final Widget child;
 
-  final Duration transitionDuration;
+  final Duration? transitionDuration;
 
-  final Duration reverseTransitionDuration;
+  final Duration? reverseTransitionDuration;
 
   @override
   bool isChildOfType(Type t) => child.runtimeType == t;
@@ -23,8 +23,10 @@ class BottomSheetPage<T> extends PageKeeperPage<T> {
     return _BottomSheetPageRoute(
       settings: this,
       page: this,
-      transitionDuration: transitionDuration,
-      reverseTransitionDuration: reverseTransitionDuration,
+      transitionDuration:
+          transitionDuration ?? const Duration(milliseconds: 300),
+      reverseTransitionDuration:
+          reverseTransitionDuration ?? const Duration(milliseconds: 300),
     );
   }
 }

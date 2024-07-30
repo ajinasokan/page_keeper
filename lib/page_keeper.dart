@@ -26,6 +26,7 @@ class PageKeeper extends StatefulWidget {
     required Widget child,
     required PageType type,
     Duration? transitionDuration,
+    Duration? reverseTransitionDuration,
     bool maintainState = true,
   }) {
     late PageKeeperPage<T> pageRoute;
@@ -46,6 +47,8 @@ class PageKeeper extends StatefulWidget {
       pageRoute = BottomSheetPage(
         child: child,
         name: child.runtimeType.toString(),
+        transitionDuration: transitionDuration,
+        reverseTransitionDuration: reverseTransitionDuration,
       );
     }
     return pageRoute;
