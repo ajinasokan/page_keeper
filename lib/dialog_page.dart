@@ -13,9 +13,6 @@ class DialogPage<T> extends PageKeeperPage<T> {
   final bool barrierDismissible;
 
   @override
-  bool canUpdate(Page other) => false;
-
-  @override
   bool isChildOfType(Type t) => child.runtimeType == t;
 
   @override
