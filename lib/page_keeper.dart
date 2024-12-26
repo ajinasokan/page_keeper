@@ -93,7 +93,7 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
     return _navigatorKey.currentState!.pop(result);
   }
 
-  bool popFirstOfType(Type type) {
+  bool popFirstOfPage(Type type) {
     int i = _pages.lastIndexWhere((e) => e.isChildOfType(type));
     if (i == -1) return false;
 
@@ -102,6 +102,14 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
     setState(() {});
 
     return true;
+  }
+
+  bool containsPage(Type type) {
+    return _pages.any((e) => e.isChildOfType(type));
+  }
+
+  bool isTopmostPage(Type type) {
+    return _pages.last.isChildOfType(type);
   }
 
   Future<bool> maybePop([dynamic result]) async {
