@@ -3,20 +3,15 @@ part of 'page_keeper.dart';
 class BottomSheetPage<T> extends PageKeeperPage<T> {
   BottomSheetPage({
     super.key,
-    required this.child,
+    required super.child,
     required super.name,
     this.transitionDuration,
     this.reverseTransitionDuration,
   });
 
-  final Widget child;
-
   final Duration? transitionDuration;
 
   final Duration? reverseTransitionDuration;
-
-  @override
-  bool isChildOfType(Type t) => child.runtimeType == t;
 
   @override
   Route<T> buildRoute(BuildContext context) {

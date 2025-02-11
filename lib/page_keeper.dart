@@ -94,7 +94,7 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   }
 
   bool popFirstOfPage(Type type) {
-    int i = _pages.lastIndexWhere((e) => e.isChildOfType(type));
+    int i = _pages.lastIndexWhere((e) => e.child.runtimeType == type);
     if (i == -1) return false;
 
     _pages.removeAt(i);
@@ -105,28 +105,21 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   }
 
   bool containsPage(Type type) {
-    return _pages.any((e) => e.isChildOfType(type));
+    return _pages.any((e) => e.child.runtimeType == type);
   }
 
   bool isTopmostPage(Type type) {
-    return _pages.last.isChildOfType(type);
+    return _pages.last.child.runtimeType == type;
   }
 
   Future<bool> maybePop([dynamic result]) async {
     return await _navigatorKey.currentState!.maybePop(result);
   }
 
-  bool _onPopPage(Route route, dynamic result) {
-    final didPop = route.didPop(result);
-
-    if (didPop) {
-      final p = route.settings as Page;
-      _pages.remove(p);
-      _pages = [..._pages];
-      setState(() {});
-    }
-
-    return didPop;
+  void _onDidRemovePage(Page page) {
+    _pages.remove(page);
+    _pages = [..._pages];
+    setState(() {});
   }
 
   @override
@@ -157,7 +150,7 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
     return Navigator(
       key: _navigatorKey,
       pages: _pages,
-      onPopPage: _onPopPage,
+      onDidRemovePage: _onDidRemovePage,
     );
   }
 }

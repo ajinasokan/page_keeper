@@ -6,13 +6,17 @@ abstract class PageKeeperPage<T> extends Page<T> {
     super.name,
     super.arguments,
     super.restorationId,
+    required this.child,
   });
+
+  final Widget child;
 
   final popCompleter = Completer<T?>();
 
   Route<T> buildRoute(BuildContext context);
 
-  bool isChildOfType(Type t);
+  @override
+  bool canUpdate(Page other) => other is PageKeeperPage && other.child == child;
 
   @override
   Route<T> createRoute(BuildContext context) {

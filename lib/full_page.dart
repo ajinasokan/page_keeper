@@ -2,7 +2,7 @@ part of 'page_keeper.dart';
 
 class FullPage<T> extends PageKeeperPage<T> {
   FullPage({
-    required this.child,
+    required super.child,
     this.maintainState = true,
     this.fullscreenDialog = false,
     this.allowSnapshotting = true,
@@ -18,16 +18,11 @@ class FullPage<T> extends PageKeeperPage<T> {
 
   final Duration? transitionDuration;
 
-  final Widget child;
-
   final bool maintainState;
 
   final bool fullscreenDialog;
 
   final bool allowSnapshotting;
-
-  @override
-  bool isChildOfType(Type t) => child.runtimeType == t;
 
   @override
   Route<T> buildRoute(BuildContext context) {
