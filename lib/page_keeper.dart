@@ -119,7 +119,6 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   void _onDidRemovePage(Page page) {
     _pages.remove(page);
     _pages = [..._pages];
-    setState(() {});
   }
 
   @override
