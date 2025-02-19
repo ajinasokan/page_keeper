@@ -2,21 +2,18 @@ part of 'page_keeper.dart';
 
 abstract class PageKeeperPage<T> extends Page<T> {
   PageKeeperPage({
-    super.key,
+    LocalKey? key,
     super.name,
     super.arguments,
     super.restorationId,
     required this.child,
-  });
+  }) : super(key: key ?? ValueKey("${child.runtimeType}"));
 
   final Widget child;
 
   final popCompleter = Completer<T?>();
 
   Route<T> buildRoute(BuildContext context);
-
-  @override
-  bool canUpdate(Page other) => other is PageKeeperPage && other.child == child;
 
   @override
   Route<T> createRoute(BuildContext context) {
