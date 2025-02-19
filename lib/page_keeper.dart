@@ -25,6 +25,7 @@ class PageKeeper extends StatefulWidget {
   static PageKeeperPage<T> page<T>({
     required Widget child,
     required PageType type,
+    LocalKey? key,
     Duration? transitionDuration,
     Duration? reverseTransitionDuration,
     bool maintainState = true,
@@ -34,6 +35,7 @@ class PageKeeper extends StatefulWidget {
       pageRoute = FullPage(
         child: child,
         name: child.runtimeType.toString(),
+        key: key,
         kind: type,
         transitionDuration: transitionDuration,
         maintainState: maintainState,
@@ -42,6 +44,7 @@ class PageKeeper extends StatefulWidget {
       pageRoute = DialogPage(
         child: child,
         name: child.runtimeType.toString(),
+        key: key,
       );
     } else if (type == PageType.bottomsheet) {
       pageRoute = BottomSheetPage(
@@ -49,6 +52,7 @@ class PageKeeper extends StatefulWidget {
         name: child.runtimeType.toString(),
         transitionDuration: transitionDuration,
         reverseTransitionDuration: reverseTransitionDuration,
+        key: key,
       );
     }
     return pageRoute;
