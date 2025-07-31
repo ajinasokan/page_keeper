@@ -15,9 +15,11 @@ class PageKeeper extends StatefulWidget {
   const PageKeeper({
     super.key,
     required this.pages,
+    this.onNavigate,
   });
 
   final List<PageKeeperPage> pages;
+  final void Function(List<PageKeeperPage<dynamic>> pages)? onNavigate;
 
   @override
   State<PageKeeper> createState() => PageKeeperState();
@@ -70,31 +72,45 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   List<PageKeeperPage<dynamic>> _pages = [];
 
+  void _notifyNavigationChange() {
+    try {
+      widget.onNavigate?.call(_pages);
+    } catch (e, st) {
+      if (kDebugMode) {
+        print('PageKeeper onNavigate error: $e\n$st');
+      }
+    }
+  }
+
   Future<T?> navigate<T>(PageKeeperPage<T> page) async {
     _pages = [..._pages, page];
     setState(() {});
+    _notifyNavigationChange();
     return await page.popCompleter.future;
   }
 
   Future<T?> replace<T>(PageKeeperPage<T> page) async {
     _pages = [..._pages.sublist(0, _pages.length - 1), page];
     setState(() {});
+    _notifyNavigationChange();
     return await page.popCompleter.future;
   }
 
   Future<T?> only<T>(PageKeeperPage<T> page) async {
     _pages = [page];
     setState(() {});
+    _notifyNavigationChange();
     return await page.popCompleter.future;
   }
 
   void reset(List<PageKeeperPage> pages) {
     _pages = [...pages];
     setState(() {});
+    _notifyNavigationChange();
   }
 
   void pop([dynamic result]) {
-    return _navigatorKey.currentState!.pop(result);
+    _navigatorKey.currentState!.pop(result);
   }
 
   bool popFirstOfPage(Type type) {
@@ -104,6 +120,7 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
     _pages.removeAt(i);
     _pages = [..._pages];
     setState(() {});
+    _notifyNavigationChange();
 
     return true;
   }
@@ -123,6 +140,7 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
   void _onDidRemovePage(Page page) {
     _pages.remove(page);
     _pages = [..._pages];
+    _notifyNavigationChange();
   }
 
   @override
@@ -131,6 +149,7 @@ class PageKeeperState extends State<PageKeeper> with WidgetsBindingObserver {
     PageKeeper._pageKeeperRef = this;
     _pages.addAll(widget.pages);
     WidgetsBinding.instance.addObserver(this);
+    _notifyNavigationChange();
   }
 
   @override
