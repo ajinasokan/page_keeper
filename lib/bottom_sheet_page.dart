@@ -78,22 +78,19 @@ class _BottomSheetPageRoute<T> extends PageRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    final CurvedAnimation secondaryCurvedAnimation = CurvedAnimation(
-      parent: secondaryAnimation,
-      curve: Curves.linear,
-      reverseCurve: Curves.linear,
-    );
-    final Animation<Offset> delegatedPositionAnimation =
-        secondaryCurvedAnimation.drive(Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(-0.5 / 3.0, 0.0),
-    ));
-    secondaryCurvedAnimation.dispose();
-
     return Container(
       color: const Color(0x00000000).withAlpha((125 * animation.value).toInt()),
       child: SlideTransition(
-        position: delegatedPositionAnimation,
+        position: Tween<Offset>(
+          begin: Offset.zero,
+          end: const Offset(-1.0 / 3.0, 0.0),
+        ).animate(
+          CurvedAnimation(
+            parent: secondaryAnimation,
+            curve: Curves.linearToEaseOut,
+            reverseCurve: Curves.easeInToLinear,
+          ),
+        ),
         child: SlideTransition(
           position: Tween<Offset>(
             begin: const Offset(0.0, 1.0),
