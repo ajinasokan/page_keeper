@@ -263,7 +263,7 @@ class _RouterDelegate extends RouterDelegate<Uri>
 
     final navigator = Navigator(
       key: navigatorKey,
-      pages: List.unmodifiable(_pages),
+      pages: _pages,
       onDidRemovePage: _onDidRemovePage,
     );
 
