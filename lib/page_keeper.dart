@@ -167,9 +167,6 @@ class _RouterDelegate extends RouterDelegate<Uri>
   /// Called when a deep link arrives.
   @override
   Future<void> setNewRoutePath(Uri uri) async {
-    if (kDebugMode) {
-      print('\x1b[36mPageKeeper setNewRoutePath: $uri\x1b[0m');
-    }
     if (uri.path.isEmpty || uri.path == '/') return;
     onDeepLink?.call(uri);
   }
@@ -248,19 +245,19 @@ class _RouterDelegate extends RouterDelegate<Uri>
     return _pages.last.child.runtimeType == type;
   }
 
-  void _onDidRemovePage(Page page) {
-    _pages.remove(page);
+  void _onDidRemovePage(Page<Object?> page) {
+    final removed = _pages.remove(page);
+    if (!removed) {
+      return;
+    }
+
     _pages = [..._pages];
+    notifyListeners();
     _notifyNavigationChange();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print(
-          "\x1b[36mNavigation: ${_pages.map((e) => e.name!).join(" → ")} \x1b[0m");
-    }
-
     final navigator = Navigator(
       key: navigatorKey,
       pages: _pages,

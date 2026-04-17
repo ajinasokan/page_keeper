@@ -18,7 +18,11 @@ abstract class PageKeeperPage<T> extends Page<T> {
   @override
   Route<T> createRoute(BuildContext context) {
     final route = buildRoute(context);
-    route.popped.then((value) => popCompleter.complete(value));
+    route.popped.then((value) {
+      if (!popCompleter.isCompleted) {
+        popCompleter.complete(value);
+      }
+    });
     return route;
   }
 }
