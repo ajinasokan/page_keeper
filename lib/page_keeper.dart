@@ -167,7 +167,13 @@ class _RouterDelegate extends RouterDelegate<Uri>
   /// Called when a deep link arrives.
   @override
   Future<void> setNewRoutePath(Uri uri) async {
-    if (uri.path.isEmpty || uri.path == '/') return;
+    // Skip Flutter's default "/" initial route fired at app launch
+    if (uri.scheme.isEmpty &&
+        uri.host.isEmpty &&
+        (uri.path.isEmpty || uri.path == '/')) {
+      return;
+    }
+
     onDeepLink?.call(uri);
   }
 
